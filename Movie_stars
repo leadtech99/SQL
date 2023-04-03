@@ -1,0 +1,59 @@
+CREATE TABLE Moviestar (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, spouse TEXT, birth_year INTEGER, networth_million INTEGER);
+
+INSERT INTO Moviestar VALUES (1, 'Adam Sandler', 'Jackie Sandler', 1966, 420);
+INSERT INTO Moviestar VALUES (2, 'Jennifer Aniston', 'NULL', 1969, 300);
+INSERT INTO Moviestar VALUES (3, 'Ashton Kutcher', 'Mila Kunis', 1978, 250);
+INSERT INTO Moviestar VALUES (4, 'Bradley Cooper', 'Jennifer Esposito', 1975, 100);
+INSERT INTO Moviestar VALUES (5, 'Mila Kunnis', 'Ashton Kutcher', 1983, 75);
+INSERT INTO Moviestar VALUES (6, 'Gerard Butler', 'Morgan Brown', 1969, 80);
+INSERT INTO Moviestar VALUES (7, 'Anne Hathaway', 'Adam Shulman', 1982, 80);
+INSERT INTO Moviestar VALUES (8, 'Reece Witherspoon', 'JIm Toth', 1976, 400);
+
+
+CREATE TABLE Top_gross (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, title TEXT, Gross_millions INTEGER);
+
+INSERT INTO Top_gross VALUES (1, 'Adam Sandler', 'Hotel Transylvania', 358);
+INSERT INTO Top_gross VALUES (2, 'Jennifer Aniston', 'Bruce Almighty', 485);
+INSERT INTO Top_gross VALUES (3, 'Ashton Kutcher', 'Cheaper by the dozen', 139);
+INSERT INTO Top_gross VALUES (4, 'Bradley Cooper', 'American Sniper', 547);
+INSERT INTO Top_gross VALUES (5, 'Mila Kunnis', 'Friends with benefits', 149);
+INSERT INTO Top_gross VALUES (6, 'Gerard Butler', '300', 211);
+INSERT INTO Top_gross VALUES (7, 'Anne Hathaway', 'The Dark Knight Rises', 448);
+INSERT INTO Top_gross VALUES (8, 'Reece Witherspoon', 'Sing', 270);
+
+
+CREATE TABLE Total_movies (id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Age INTEGER, Grand_total INTEGER);
+
+INSERT INTO Total_movies VALUES(1, 'Adam Sandler', 56, 58);
+INSERT INTO Total_movies VALUES(2, 'Jennifer Aniston', 54, 45);
+INSERT INTO Total_movies VALUES(3, 'Ashton Kutcher', 45, 29);
+INSERT INTO Total_movies VALUES(4, 'Bradley Cooper', 48, 50);
+INSERT INTO Total_movies VALUES(5, 'Mila Kunnis', 39,37);
+INSERT INTO Total_movies VALUES(6, 'Gerard Butler', 53, 55);
+INSERT INTO Total_movies VALUES(7, 'Anne Hathaway', 40, 51);
+INSERT INTO Total_movies VALUES(8, 'Reece Witherspoon', 47, 46);
+
+--How do you do a cross JOIN?--
+Select * from Moviestar, Top_gross, total_movies;
+
+
+--How to an inner join?--
+SELECT * FROM Top_gross, total_movies
+WHERE Top_gross.name = total_movies.name;
+
+--How to do an Explicit inner join to know how much the movie stars net worth is and what their top gossing movie grossed?--
+SELECT Moviestar.networth_million, Top_gross.Gross_millions
+FROM Moviestar
+Join Top_gross
+ON Moviestar.name = Top_gross.name;
+
+--How to do a left outer join where you get Movie stars name, birth year, age, and total novies starred in?--
+SELECT Moviestar.name, Moviestar.birth_year, Total_movies.age, Total_movies.grand_total
+FROM Moviestar
+LEFT OUTER JOIN Total_movies
+ON Moviestar.name = Total_movies.name;
+
+
+--Find movie stars name and the name of their spouse.--
+SELECT name, spouse
+FROM Moviestar;
