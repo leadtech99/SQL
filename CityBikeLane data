@@ -1,0 +1,52 @@
+--Select all sata to verify table was created properly.--
+
+SELECT *
+FROM CityBikeLanes
+LIMIT 10;
+
+SELECT * 
+FROM CityBikeLanes
+WHERE street = 'Walnut';
+
+WITH safety_average_cte AS(
+SELECT street, AVG(safetyrating) AS 'rating'
+FROM citybikelanes
+GROUP BY street)
+
+SELECT 
+street,
+rating, 'Safe lane' AS 'label'
+FROM safety_average_cte
+WHERE rating >= 4; 
+
+WITH lane_width_cte AS (
+SELECT street, year_installed, width_feet  AS 'wide'
+FROM citybikelanes
+GROUP BY street
+)
+
+SELECT street, year_installed, wide , 'wide' AS 'label'
+FROM lane_width_cte
+WHERE year_installed >= 2010;
+
+SELECT street, safetyrating, year_installed,
+AVG(safetyrating) OVER (PARTITION BY street) as 'Average_safety_rating'
+FROM CityBikeLanes;
+
+SELECT street, safetyrating, AVG(safetyrating)
+FROM CityBikeLanes
+WHERE street = '2nd'
+GROUP BY street, safetyrating;
+
+
+ SELECT street, safetyrating, AVG(safetyrating) OVER (PARTITION BY street) as 'Average_safety_rating'
+ FROM CityBikeLanes
+ WHERE street= '2nd';
+ 
+
+SELECT street, safetyrating, AVG(safetyrating) 
+OVER(PARTITION BY street) as 'Average_safety_rating',
+CASE WHEN AVG(safetyrating) OVER (PARTITION BY street) >=4 THEN 'leave as-is' WHEN AVG(safetyrating) OVER (PARTITION BY street) <2.5 THEN 'Remove'
+ELSE 'Improvements needed'
+END AS 'Recomendation'
+FROM CityBikeLanes;
